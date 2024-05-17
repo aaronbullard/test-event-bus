@@ -22,10 +22,10 @@ class AddItemServiceTest extends BaseTestCase {
     {
         $fruitBasket = new FruitBasket('Large Basket', 100);
         
-        $this->repo->shouldReceive('findById')->with(1)->andReturn($fruitBasket)
+        $this->repo->shouldReceive('findById')->with('id1234')->andReturn($fruitBasket)
                     ->shouldReceive('update')->with($fruitBasket)->once();
 
-        $request = new AddItemRequest(1, 'Apple', 10);
+        $request = new AddItemRequest('id1234', 'Apple', 10);
 
         $service = new AddItemService($this->repo);
 
@@ -38,9 +38,9 @@ class AddItemServiceTest extends BaseTestCase {
     {
         $fruitBasket = new FruitBasket('Small Basket', 10);
         
-        $this->repo->shouldReceive('findById')->with(1)->andReturn($fruitBasket);
+        $this->repo->shouldReceive('findById')->with('id1234')->andReturn($fruitBasket);
 
-        $request = new AddItemRequest(1, 'Apple', 11);
+        $request = new AddItemRequest('id1234', 'Apple', 11);
 
         $service = new AddItemService($this->repo);
 
@@ -52,9 +52,9 @@ class AddItemServiceTest extends BaseTestCase {
 
     public function test_when_fruit_basket_not_found()
     {
-        $this->repo->shouldReceive('findById')->with(1)->andReturn(null);
+        $this->repo->shouldReceive('findById')->with('id1234')->andReturn(null);
 
-        $request = new AddItemRequest(1, 'Apple', 10);
+        $request = new AddItemRequest('id1234', 'Apple', 10);
 
         $service = new AddItemService($this->repo);
 

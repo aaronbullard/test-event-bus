@@ -15,7 +15,7 @@ class AddItemService {
 
     public function __invoke(AddItemRequest $request): AddItemResponse
     {
-        $fruitBasket = $this->repo->findById($request->basketId);
+        $fruitBasket = $this->repo->findById($request->fruitBasketId);
 
         if (is_null($fruitBasket)) {
             return AddItemResponse::failure('Fruit basket not found');

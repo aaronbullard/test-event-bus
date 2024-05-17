@@ -29,7 +29,7 @@ class FruitBasketRepository {
         $this->em->flush();
     }
 
-    public function findById(int $id): ?FruitBasket 
+    public function findById(string $id): ?FruitBasket 
     {
         return $this->em->getRepository(FruitBasket::class)->find($id);
     }

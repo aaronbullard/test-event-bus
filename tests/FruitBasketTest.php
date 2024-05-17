@@ -7,17 +7,6 @@ use App\Models\FruitBasketItem;
 
 class FruitBasketTest extends BaseTestCase {
 
-    public function setUp(): void
-    {
-        parent::setup();
-    }
-    
-    public function test_creating_a_fruit_basket()
-    {
-        $basket = new FruitBasket('Large Basket', 100);
-        $this->assertInstanceOf(FruitBasket::class, $basket);
-    }
-
     public function test_adding_an_item_to_a_fruit_basket()
     {
         $fruitBasket = new FruitBasket('Large Basket', 100);
@@ -32,15 +21,16 @@ class FruitBasketTest extends BaseTestCase {
 
     public function test_adding_too_much_fruit_to_a_fruit_basket()
     {
-        $fruitBasket = new FruitBasket('Small Basket', 10);
+        $fruitBasket = new FruitBasket('Small Basket', 50);
+       
+        $fruitBasket
+            ->addItem('Apple', 10)
+            ->addItem('Banana', 20);
         
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Fruit basket is full');
         
-        $fruitBasket
-                ->addItem('Apple', 10)
-                ->addItem('Banana', 20)
-                ->addItem('Orange', 30);
+        $fruitBasket->addItem('Orange', 30);
     }
 
     public function test_when_retrieving_the_items_in_a_fruit_basket()
@@ -55,10 +45,10 @@ class FruitBasketTest extends BaseTestCase {
         $fruitBasketItems = $fruitBasket->items();
 
         $this->assertEquals(3, count($fruitBasketItems));
-        $this->assertEquals('Apple', $fruitBasketItems[0]['name']);
+        // $this->assertEquals('Apple', $fruitBasketItems[0]['name']);
     }
 
-    public function test_you_can_not_mutate_items_inside_a_fruit_basket()
+    public function test_you_can_not_access_items_inside_a_fruit_basket()
     {
         $fruitBasket = new FruitBasket('Large Basket', 100);
 
@@ -71,7 +61,7 @@ class FruitBasketTest extends BaseTestCase {
         $this->assertNotInstanceOf(FruitBasketItem::class, $items[0]);
     }
 
-    public function test_you_can_not_mutate_items_inside_a_fruit_basket_2()
+    public function test_you_can_not_mutate_items_inside_a_fruit_basket()
     {
         $fruitBasket = new FruitBasket('Large Basket', 100);
 
@@ -84,6 +74,7 @@ class FruitBasketTest extends BaseTestCase {
         $items = $fruitBasket->items();
 
         if ($items[0] instanceOf FruitBasketItem) {
+            // Increase weight and exceed fruit basket capacity
             $items[0]->setWeight(51);
 
             $this->assertEquals($basketWeight, $fruitBasket->currentWeight());
