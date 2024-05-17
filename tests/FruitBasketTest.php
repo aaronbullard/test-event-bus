@@ -3,6 +3,7 @@
 namespace Tests;
 
 use App\Models\FruitBasket;
+use App\Models\FruitBasketItem;
 
 class FruitBasketTest extends BaseTestCase {
 
@@ -55,5 +56,40 @@ class FruitBasketTest extends BaseTestCase {
 
         $this->assertEquals(3, count($fruitBasketItems));
         $this->assertEquals('Apple', $fruitBasketItems[0]['name']);
+    }
+
+    public function test_you_can_not_mutate_items_inside_a_fruit_basket()
+    {
+        $fruitBasket = new FruitBasket('Large Basket', 100);
+
+        $fruitBasket
+                ->addItem('Apple', 50)
+                ->addItem('Banana', 50);
+
+        $items = $fruitBasket->items();
+
+        $this->assertNotInstanceOf(FruitBasketItem::class, $items[0]);
+    }
+
+    public function test_you_can_not_mutate_items_inside_a_fruit_basket_2()
+    {
+        $fruitBasket = new FruitBasket('Large Basket', 100);
+
+        $fruitBasket
+                ->addItem('Apple', 50)
+                ->addItem('Banana', 50);
+
+        $basketWeight = $fruitBasket->currentWeight();
+
+        $items = $fruitBasket->items();
+
+        if ($items[0] instanceOf FruitBasketItem) {
+            $items[0]->setWeight(51);
+
+            $this->assertEquals($basketWeight, $fruitBasket->currentWeight());
+            $this->assertTrue($fruitBasket->maxCapacity() >= $fruitBasket->currectWeight());
+        } else {
+            $this->assertTrue(true);
+        }
     }
 }

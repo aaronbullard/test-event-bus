@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Ramsey\Uuid\Uuid;
+
 class FruitBasketItem {
 
     const NAMES = [
@@ -10,29 +12,26 @@ class FruitBasketItem {
         'Orange',
     ];
 
-    #[Id, Column(type: 'integer'), GeneratedValue]
-    private int|null $id = null;
-
-    #[ORM\ManyToOne(targetEntity: FruitBasket::class, inversedBy: 'items')]
-    private FruitBasket $fruitBasket;
+    private string $id;
 
     private string $name;
 
     private int $weight;
 
-    public function __construct(FruitBasket $fruitBasket, string $name, int $weight) 
+    private string $fruitBasketId;
+
+    public function __construct(string $name, int $weight = null) 
     {
         if(!in_array($name, self::NAMES)) {
             throw new \InvalidArgumentException('Invalid name');
         }
 
-        if($weight <= 0) {
-            throw new \InvalidArgumentException('Invalid weight');
-        }
-        
-        $this->fruitBasket = $fruitBasket;
+        $this->id = Uuid::uuid4()->toString();
         $this->name = $name;
-        $this->weight = $weight;
+
+        if (is_null($weight) === false) {
+            $this->setWeight($weight);
+        }
     }
 
     public function id() 
@@ -45,9 +44,32 @@ class FruitBasketItem {
         return $this->name;
     }
 
+    public function setWeight(int $weight): self
+    {
+        if($weight <= 0) {
+            throw new \InvalidArgumentException('Invalid weight');
+        }
+
+        $this->weight = $weight;
+
+        return $this;
+    }
+
     public function weight()
     {
         return $this->weight;
+    }
+
+    public function setFruitBasketId(string $fruitBasketId): self
+    {
+        $this->fruitBasketId = $fruitBasketId;
+
+        return $this;
+    }
+
+    public function fruitBasketId()
+    {
+        return $this->fruitBasketId;
     }
 
 }

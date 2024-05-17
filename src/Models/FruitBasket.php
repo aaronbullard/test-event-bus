@@ -2,22 +2,29 @@
 
 namespace App\Models;
 
+use Ramsey\Uuid\Uuid;
+
 class FruitBasket {
 
-    #[Id, Column(type: 'integer'), GeneratedValue]
-    private int|null $id = null;
+    private string $id;
 
     private string $name;
 
     private int $maxCapacity;
 
-    #[OneToMany(targetEntity: FruitBasketItem::class, mappedBy: 'fruitBasket')]
+    #[OneToMany(targetEntity: FruitBasketItem::class, mappedBy: 'fruitBasketId')]
     private array $items = [];
 
     public function __construct(string $name, int $maxCapacity) 
     {
+        $this->id = Uuid::uuid4()->toString();
         $this->name = $name;
         $this->maxCapacity = $maxCapacity;
+    }
+
+    public function id() 
+    {
+        return $this->id;
     }
 
     public function name(): string
@@ -35,8 +42,12 @@ class FruitBasket {
         if($this->currentWeight() + $weight > $this->maxCapacity()) {
             throw new \LogicException('Fruit basket is full');
         }
+
+        $item = new FruitBasketItem($name, $weight);
+
+        $item->setFruitBasketId($this->id);
         
-        $this->items[] = new FruitBasketItem($this, $name, $weight);
+        $this->items[] = $item;
 
         return $this;
     }
