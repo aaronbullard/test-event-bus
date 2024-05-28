@@ -7,8 +7,10 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "src/",
-            "Tests\\": "tests/"
+            "App\\": "FruitBasket/src/",
+            "Tests\\": "FruitBasket/tests/",
+            "Factories\\": "Factories/src/",
+            "Factories\\Tests\\": "Factories/tests/"
         }
     },
     "authors": [
