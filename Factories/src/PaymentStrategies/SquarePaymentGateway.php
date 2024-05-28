@@ -4,9 +4,16 @@ namespace Factories\PaymentStrategies;
 
 class SquarePaymentGateway extends PaymentGateway {
 
-    public function pay(int $accountId, int $amount): bool {
-        print_r(sprintf("Square payment gateway for account %d with amount %d", $accountId, $amount));
+    public function name(): string
+    {
+        return 'square';
+    }
 
-        return true;
+    public function pay(int $accountId, int $amount): array {
+        return [
+            'gateway' => self::class,
+            'account_id' => $accountId,
+            'amount' => $amount
+        ];
     }
 }

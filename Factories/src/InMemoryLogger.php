@@ -3,14 +3,31 @@
 namespace Factories;
 
 class InMemoryLogger {
+
+    private static $instance;
     
     private $logs = [];
 
-    public function log(string $message) {
-        $this->logs[] = $message;
+    public static function getInstance(): self
+    {
+        if (self::$instance === null) {
+            self::$instance = new self();
+        }
+
+        return self::$instance;
     }
 
-    public function getLogs(): array {
+    private function __construct(){}
+    
+    public function log(string $message): self
+    {
+        $this->logs[] = $message;
+
+        return $this;
+    }
+
+    public function getLogs(): array
+    {
         return $this->logs;
     }
 }

@@ -2,6 +2,8 @@
 
 namespace Factories;
 
+use Closure;
+
 class Container {
 
     private static $instance;
