@@ -13,6 +13,7 @@ class AppServiceProvider {
 
     public function register() {
         // Register Factory to Container
+
     }
 
 }

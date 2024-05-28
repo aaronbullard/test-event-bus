@@ -32,6 +32,6 @@ class Container {
             throw new \Exception("Service {$service} not found");
         }
         
-        return $this->services[$service]();
+        return $this->services[$service]($this);
     }
 }
