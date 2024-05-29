@@ -2,4 +2,6 @@
 - Update PaymentGatewayFactory class so that it returns different payment strategies.  Build factory so that new stratgies can be added without changing the class (Open/Closed principle)
 - Use Container class for service registration
 - Change InMemoryLogger into a singleton using by adding InMemoryLogger::getInstance() method
-- Add ability to log all payments using InMemoryLogger class
+- Add ability to log all payments using InMemoryLogger class.  Each transaction should append to the log the statement below:
+
+``` Payment made for account {accountId} with amount {amount} by {stripe|square} ```
