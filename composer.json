@@ -10,7 +10,9 @@
             "App\\": "FruitBasket/src/",
             "Tests\\": "FruitBasket/tests/",
             "Factories\\": "Factories/src/",
-            "Factories\\Tests\\": "Factories/tests/"
+            "Factories\\Tests\\": "Factories/tests/",
+            "EventBus\\": "EventBus/src/",
+            "EventBus\\Tests\\": "EventBus/tests/"
         }
     },
     "authors": [
@@ -20,6 +22,9 @@
         }
     ],
     "scripts": {
-        "test": "./vendor/bin/phpunit"
+        "test": "./vendor/bin/phpunit",
+        "test:fruitbasket": "./vendor/bin/phpunit --filter FruitBasket",
+        "test:factories": "./vendor/bin/phpunit --filter Factories",
+        "test:eventbus": "./vendor/bin/phpunit --filter EventBus"
     }
 }
