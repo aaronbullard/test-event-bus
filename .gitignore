@@ -51,3 +51,4 @@ composer.phar
 /fuel/app/config/crypt.php
 
 /.phpunit.cache/*
+.phpunit.result.cache
