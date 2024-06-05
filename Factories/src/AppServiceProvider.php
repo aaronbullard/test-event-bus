@@ -19,9 +19,9 @@ class AppServiceProvider {
     }
 
     public function register() {
-        // Register Factory to Container
+        // Register services to Container, change as needed
         $this->container->bind(InMemoryLogger::class, function($app){
-            return InMemoryLogger::getInstance();
+            return new InMemoryLogger();
         });
 
         $this->container->bind(StripePaymentGateway::class, function($app) {
@@ -33,23 +33,7 @@ class AppServiceProvider {
         });
         
         $this->container->bind(PaymentGatewayFactory::class, function($app){
-            return new PaymentGatewayFactory(
-                $app->make(StripePaymentGateway::class),
-                $app->make(SquarePaymentGateway::class)
-            );
-        });
-
-        $this->container->bind(PaymentGatewayFactory::class, function($app){
-            return new PaymentGatewayFactory(
-                new LoggingPaymentGatewayDecorator(
-                    $app->make(StripePaymentGateway::class),
-                    $app->make(InMemoryLogger::class)
-                ),
-                new LoggingPaymentGatewayDecorator(
-                    $app->make(SquarePaymentGateway::class),
-                    $app->make(InMemoryLogger::class)
-                )
-            );
+            return new PaymentGatewayFactory();
         });
     }
 

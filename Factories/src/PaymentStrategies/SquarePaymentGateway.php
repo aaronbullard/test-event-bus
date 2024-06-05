@@ -4,11 +4,6 @@ namespace Factories\PaymentStrategies;
 
 class SquarePaymentGateway extends PaymentGateway {
 
-    public function name(): string
-    {
-        return 'square';
-    }
-
     public function pay(int $accountId, int $amount): array {
         return [
             'gateway' => self::class,
