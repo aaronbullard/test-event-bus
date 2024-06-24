@@ -20,13 +20,16 @@ class EventBusTest extends BaseTestCase {
     public function test_it_publishes_events()
     {
         $event = Mockery::mock(Event::class);
-        $listener = Mockery::spy(Listener::class);
-            
-        $this->eventBus->subscribe($listener);
+        $listener1 = Mockery::spy(Listener::class);
+        $listener2 = Mockery::spy(Listener::class);
 
-        $bus = $this->eventBus->publish($event);
+        $bus = $this->eventBus
+                    ->subscribe($listener1)
+                    ->subscribe($listener2)
+                    ->publish($event);
 
-        $listener->shouldHaveReceived('notify')->with($event)->once();
+        $listener1->shouldHaveReceived('notify')->with($event)->once();
+        $listener2->shouldHaveReceived('notify')->with($event)->once();
 
         $this->assertEquals($bus, $this->eventBus);
     }
