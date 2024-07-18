@@ -9,5 +9,5 @@ use EventBus\Contracts\{
 };
 
 class InMemoryEventBus implements EventBus {
-
+    // Add code here to implement EventBus
 }
